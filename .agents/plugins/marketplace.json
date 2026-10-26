@@ -1,0 +1,19 @@
+{
+  "name": "flarewarden",
+  "interface": {
+    "displayName": "FlareWarden"
+  },
+  "plugins": [
+    {
+      "name": "flarewarden",
+      "source": {
+        "source": "local",
+        "path": "./plugins/flarewarden"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

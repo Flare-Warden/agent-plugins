@@ -1,0 +1,13 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "com.flarewarden/website-monitoring",
+  "title": "FlareWarden",
+  "description": "Check whether a website or a service such as Stripe or AWS is down, from several regions.",
+  "version": "0.1.0",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.flarewarden.com/mcp"
+    }
+  ]
+}

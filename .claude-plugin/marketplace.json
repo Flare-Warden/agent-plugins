@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "flarewarden",
+  "description": "FlareWarden's plugin for AI agents: check whether a website or service is down, and set up and run uptime monitoring through the FlareWarden MCP server.",
+  "owner": {
+    "name": "FlareWarden",
+    "email": "support@flarewarden.com",
+    "url": "https://flarewarden.com"
+  },
+  "plugins": [
+    {
+      "name": "flarewarden",
+      "displayName": "FlareWarden",
+      "source": "./plugins/flarewarden",
+      "description": "Check whether any website or service such as Stripe or AWS is down, and monitor your own sites, the services they depend on, cron jobs and status pages with FlareWarden.",
+      "category": "monitoring",
+      "tags": ["uptime", "website monitoring", "is it down", "outage", "status page", "incident", "cron job monitoring", "heartbeat", "ssl certificate", "dns", "third-party dependencies", "sla report"]
+    }
+  ]
+}

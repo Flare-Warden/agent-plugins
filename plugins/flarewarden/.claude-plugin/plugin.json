@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "flarewarden",
+  "displayName": "FlareWarden",
+  "version": "0.1.0",
+  "description": "Check whether any website or service such as Stripe or AWS is down, and monitor your own sites, the services they depend on, cron jobs and status pages with FlareWarden.",
+  "author": {
+    "name": "FlareWarden",
+    "email": "support@flarewarden.com",
+    "url": "https://flarewarden.com"
+  },
+  "homepage": "https://flarewarden.com/llms.txt",
+  "repository": "https://github.com/Flare-Warden/agent-plugins",
+  "license": "MIT",
+  "keywords": ["uptime", "website-monitoring", "is-it-down", "outage", "status-page", "incident", "cron", "heartbeat", "ssl", "dns", "mcp"],
+  "icon": "./assets/logo.png",
+  "documentationUrl": "https://flarewarden.com/docs",
+  "supportUrl": "https://flarewarden.com/contact",
+  "privacyPolicyUrl": "https://flarewarden.com/privacy",
+  "termsOfServiceUrl": "https://flarewarden.com/terms"
+}
