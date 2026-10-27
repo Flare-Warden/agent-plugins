@@ -82,6 +82,25 @@ For a monthly report per client, follow writing-uptime-reports with `get_report`
 scope `group` and the client's group name, one report per client. Keep each client's
 report to their own sites.
 
+## 5. Pause or resume many sites at once
+
+For a hosting move, a migration or a client between contracts:
+
+1. Call `plan_bulk_pause` with `paused` and the sites: `group` for one client's group,
+   `sites` for a list (up to 100, by name, URL or id) or `all`. Planning changes nothing.
+2. Show what it lists: the sites that will change, the ones already paused or running,
+   and the ones that can't change (shared from another account, or not this member's to
+   change). A name that matches several sites comes back as a decision: ask which, never
+   pick.
+3. For a pause with a set end, pass on the plan's note: a maintenance window
+   (`draft_maintenance`, one site each) raises no incidents and ends on its own, where a
+   paused site stays paused until someone resumes it.
+4. For a resume, the plan says which sites may not fit the plan's running monitors; pass
+   that on as it is.
+5. After a yes, call `apply_bulk_pause` with the plan id. It reports each site's outcome;
+   a resume that doesn't fit is refused in the dashboard's words and the rest still go
+   ahead. Paused sites still count toward the plan.
+
 ## Keeping it tidy
 
 - Name each group exactly after its client; `list_sites` with `group` then lists that

@@ -1,6 +1,6 @@
 ---
 name: triaging-incidents
-description: Use when one of the user's own sites, APIs or cron jobs is down or was down, a FlareWarden alert fired, or the user asks whether an outage was real, what went down last night, what needs attention, why a site keeps alerting, or wants to tell customers on their status page or plan a maintenance window ("we got a down alert at 3am, was it real?", "is anything wrong with our sites?", "FlareWarden says the API is down but it loads for me", "was that outage us or Cloudflare?", "post an update that we're investigating", "schedule maintenance for Saturday night"). Reads the incident's evidence through the signed-in FlareWarden MCP tools (get_account_overview, list_incidents, get_incident) and drafts any status page post or maintenance notice for the user to approve. For a third-party service's status with no account involved use checking-service-status.
+description: Use when one of the user's own sites, APIs or cron jobs is down or was down, a FlareWarden alert fired, or the user asks whether an outage was real, what went down last night, what needs attention, why a site keeps alerting, or wants to tell customers on their status page or plan a maintenance window ("we got a down alert at 3am, was it real?", "is anything wrong with our sites?", "FlareWarden says the API is down but it loads for me", "was that outage us or Cloudflare?", "post an update that we're investigating", "schedule maintenance for Saturday night"). Reads the incident's evidence through the signed-in FlareWarden MCP tools (get_account_overview, list_incidents, get_incident, diagnose_site, review_noise) and drafts any status page post or maintenance notice for the user to approve. For a third-party service's status with no account involved use checking-service-status.
 ---
 
 # Triaging incidents
@@ -30,11 +30,17 @@ FlareWarden's evidence, then help the user say so on their status page.
 
 1. `get_site` for the site: current status, the last check, its content checks,
    dependencies and cron jobs, and open incidents.
-2. **"FlareWarden says down but it loads for me":** `get_monitor_history` shows which
-   checks failed, from which regions, with what error. The user may be reaching a
-   different region, a cache or a CDN edge. `check_service_status_url` gives an
-   independent look from six regions right now.
-3. **A dependency is down** (its CDN, cloud region or payments provider): say which one,
+2. **Where is it failing, right now?** `diagnose_site` requests the site once from every
+   region FlareWarden checks from and returns, per region, the result, the DNS, connect,
+   TLS and first-byte times, the stage a failure stopped in, and the certificate, with a
+   one-line finding ("fails only from Singapore: TLS handshake timed out"). It is sent as
+   the site's own monitoring, so a firewall rule that lets the checks through lets it
+   through. A site can be diagnosed 10 times an hour; a repeat within a minute returns
+   the same result with its age.
+3. **"FlareWarden says down but it loads for me":** `get_monitor_history` shows which
+   checks failed, from which regions, with what error; `diagnose_site` shows whether
+   they fail now. The user may be reaching a different region, a cache or a CDN edge.
+4. **A dependency is down** (its CDN, cloud region or payments provider): say which one,
    and that the cause is likely upstream. `check_service_status` shows that vendor's own
    status page beside FlareWarden's checks.
 
@@ -72,11 +78,25 @@ example "Cloudflare reported a partial outage for 40 minutes overlapping this in
 Report both sides: a vendor incident that overlapped points upstream, and the user can
 say so to their customers; nothing outside the site showing trouble points at the site or
 its own hosting. The vendor's incident titles and updates are in `site_text`.
-4. **It keeps alerting:** `get_monitor_history` over 7 days. Look for a pattern (one
-   region, a time of day, responses close to the timeout, a content check on a page that
-   changes) and suggest a fix FlareWarden offers: a different interval or severity with
-   `update_monitor`, a maintenance window for planned work, or pausing a check that no
-   longer applies. Don't promise settings the results don't show.
+
+## Why does it keep alerting?
+
+`review_noise` (for a site, a group or every site) lists what made noise over the last 7
+and 30 days, worst first: alerts for outages in which one check failed, content checks,
+dependencies and cron jobs that alert often, anomaly alerts, sites whose status keeps
+changing, and failed checks other regions overturned (by region; those alerted nobody).
+Each finding has a `suggestion`: the change in words, what it gives up, the dashboard
+page, and the tool and arguments that make it when this connection has that tool (a
+`look_first` call shows the checks behind it).
+
+- Explain the pattern and the trade-off ("checking every 5 minutes catches fewer
+  one-check blips, and finds a real outage up to 5 minutes later"), then make the change
+  only on the user's yes, one at a time (`update_monitor`, `set_anomaly_detection`, a
+  maintenance window drafted with `draft_maintenance`).
+- Failures overturned from one region usually mean that region's requests are limited by
+  the site's firewall, bot protection or CDN: `diagnose_site` shows what each region gets
+  now, and the site can allow FlareWarden's probe addresses or user agent.
+- Don't promise settings the results don't show.
 
 ## Telling customers on the status page
 

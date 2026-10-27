@@ -100,8 +100,10 @@ Repeat the plan's wording; never pick for the user.
   user's yes, before `create_status_page`. "You choose" never publishes. The
   running-status-pages skill covers editing it, custom domains and components.
 - **Changes:** `update_monitor` changes a site's interval or group (and a check's own
-  settings); `set_monitor_paused` pauses or resumes. Pausing frees no room on the plan;
-  removing a monitor does, and that is done in the dashboard.
+  settings); `set_monitor_paused` pauses or resumes. For several sites at once (a group,
+  a list or every site), `plan_bulk_pause` lists which would change, then
+  `apply_bulk_pause` after a yes. Pausing frees no room on the plan; removing a monitor
+  does, and that is done in the dashboard.
 
 ## Hard lines
 
