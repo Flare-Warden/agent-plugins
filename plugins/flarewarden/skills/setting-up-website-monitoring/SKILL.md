@@ -19,7 +19,7 @@ check, dependency, cron job or anomaly detection uses one more.
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client; once the user has signed in, call it again.
 2. **No account yet?** `start_monitoring` takes the user's email and the site's URL and
-   emails them a confirmation link; clicking it creates a free account with the site
+   emails them a confirmation link; clicking it creates an account with the site
    already set up. It emails a real person, so confirm the address with the user first.
 3. Call `get_account_overview`. It says the plan, how many monitor units are left, the
    member's role and what they may do. A member who may not add sites (a viewer) gets
@@ -67,8 +67,9 @@ outage" shows the site as down, "Treat as degraded" as degraded, and "Just tell 
 severity sends an alert.
 
 **When the plan doesn't fit the room left,** it says so and adds a decision: trim the
-plan (which checks to drop) or upgrade. An owner gets the billing link; anyone else gets
-"ask the account owner". Repeat the plan's wording; never pick for the user.
+plan (which checks to drop). If the result links the account's plans, pass the link on as it
+is; only the account owner can change the plan, so anyone else is told to ask the owner.
+Repeat the plan's wording; never pick for the user.
 
 ## Adding to a site that is already monitored
 
@@ -95,7 +96,9 @@ plan (which checks to drop) or upgrade. An owner gets the billing link; anyone e
   branding, display or seo); setting a custom domain returns the CNAME record to create,
   and the address (slug) never changes. `add_status_page_component`,
   `update_status_page_component` and `remove_status_page_component` change what a page
-  shows; removing a group heading or the page itself is done in the dashboard.
+  shows. Removing a site takes the check rows shown under it too. Removing a group keeps
+  what is in it on the page, at the top level, unless the user asks for everything in it
+  to go (`group_contents: remove`). Deleting the page itself is done in the dashboard.
 - **Changes:** `update_monitor` changes a site's interval or group (and a check's own
   settings); `set_monitor_paused` pauses or resumes. Pausing frees no room on the plan;
   removing a monitor does, and that is done in the dashboard.

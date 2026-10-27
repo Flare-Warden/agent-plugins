@@ -21,6 +21,7 @@
     "category": "Developer Tools",
     "capabilities": ["Read", "Write"],
     "websiteURL": "https://flarewarden.com",
+    "supportURL": "https://flarewarden.com/contact",
     "privacyPolicyURL": "https://flarewarden.com/privacy",
     "termsOfServiceURL": "https://flarewarden.com/terms",
     "defaultPrompt": [

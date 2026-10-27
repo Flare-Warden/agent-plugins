@@ -41,8 +41,9 @@ client's sites together, and let each client see only their own.
 4. **When it doesn't fit,** lay the options out with numbers, using the plan's own
    figures. For example: "12 sites with 2 dependencies each is 36 monitors and you have
    25 left. Websites only is 12 and fits; the top 8 with their dependencies is 24 and
-   fits; or upgrade." An owner gets the billing link; anyone else is told to ask the
-   account owner. Never choose for the user.
+   fits." If the result links the account's plans, pass the link on as it is; only the
+   account owner can change the plan, so anyone else is told to ask the owner. Never
+   choose for the user.
 5. Exceptions per site (one client wants a faster interval, one site is an API with no
    page checks) go back into the plan before it is ready.
 

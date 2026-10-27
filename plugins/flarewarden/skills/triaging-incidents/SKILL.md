@@ -62,9 +62,9 @@ FlareWarden's evidence, then help the user say so on their status page.
    - **New:** `components` names what it is about (the site, or one of its dependencies,
      content checks or cron jobs). If the draft says your team already declared an open
      incident there, draft an update on that one instead (its `next` does).
-   - **Update:** an update goes to the status page subscribers who take updates; members
-     are not emailed and webhooks have no update event. An internal note
-     (`internal_only`) is seen only by the team.
+   - **Update:** an update goes to the members who get the site's incident alerts and
+     the status page subscribers who take updates; webhooks have no update event. An
+     internal note (`internal_only`) is seen only by the team and emails nobody.
    - **Resolve:** sends the recovery the incident's start earned; a closing `message` is
      posted with it.
 2. Show the user the exact text and the recipients. Edit it with them. Keep it factual:

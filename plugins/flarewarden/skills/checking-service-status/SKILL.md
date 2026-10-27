@@ -67,7 +67,7 @@ checks from the public internet. Say so, and suggest checking from inside the ne
 ## 4. When the user wants more
 
 - "Tell me next time", "keep an eye on it", "check it every minute": a one-off check
-  can't do that. A free FlareWarden account watches the site, and the services it
+  can't do that. A FlareWarden account watches the site, and the services it
   depends on, and alerts the user: https://app.flarewarden.com/auth/register. With the
   MCP server signed in, the setting-up-website-monitoring skill walks through it.
 - If the site is the user's own and already monitored by FlareWarden, their account has
