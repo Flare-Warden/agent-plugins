@@ -20,11 +20,12 @@ client's sites together, and let each client see only their own.
    Claude Code, FlareWarden then shows as needing authentication until the user runs
    `/mcp`, picks flarewarden and chooses Authenticate.
    - Before calling any account tool, ask whether the user has a FlareWarden account,
-     unless they already said: an account tool called first only asks for sign-in. If they
-     don't, preview one or two of the sites with `recommend_monitoring` (no sign-in, one
-     site at a time), give the sign-up link from its result as it is, and ask them to
-     come back once they've signed up. Keep the list here: signing up carries nothing
-     from the conversation.
+     unless they already said (as two choices where the client can offer them): an
+     account tool called first only asks for sign-in. If they don't, monitoring needs
+     one: give the sign-up link (https://app.flarewarden.com/auth/register) as it is,
+     right away, and offer to add the sites once they're back. Preview a site with
+     `recommend_monitoring` (no sign-in, one site at a time) only if they ask what it
+     would cover. Keep the list here: signing up carries nothing from the conversation.
 2. Call `get_account_overview`: the plan, monitor units left, seats, and the member's
    role. Adding sites needs a member who may create monitors; inviting clients needs an
    owner or admin. If the member can't, pass on the refusal and stop.
@@ -32,6 +33,13 @@ client's sites together, and let each client see only their own.
    read. Make it one URL per site, drop exact duplicates, and settle which client each
    site belongs to. If that isn't clear from the list, ask once with your best guess per
    site (by domain is the usual answer).
+
+**Asking.** When you put a choice to the user (a plan's decisions, or a yes before
+anything is created, published, sent or spent) and the client can show choices (Claude
+Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
+option first and marked, at most four questions at a time, and for a yes the action
+itself and "Change something". A decision with more options than the prompt shows, or one
+that needs typed text, goes in a message instead.
 
 ## 1. Plan every site at once
 

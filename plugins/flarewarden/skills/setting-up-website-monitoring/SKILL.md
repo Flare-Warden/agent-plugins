@@ -22,15 +22,17 @@ check, dependency, cron job or anomaly detection uses one more.
    FlareWarden account", "I've signed up"). Don't assume either way: asking to be
    emailed, giving an address, owning the site or having FlareWarden connected in the
    client doesn't tell you. Don't call `get_account_overview` or `plan_site` to find
-   out: an account tool called before sign-in only asks for sign-in.
+   out: an account tool called before sign-in only asks for sign-in. Where the client
+   can offer choices (Claude Code's AskUserQuestion, for one), ask it as two: "I have an
+   account" and "Not yet"; otherwise ask in a sentence.
    - **They have one:** go to step 3.
-   - **They don't:** call `recommend_monitoring` with the site. It needs no sign-in and
-     stores nothing about the user. Show them the preview: the services the site relies on
-     and their status now, when the certificate expires, the DNS summary, whether the site
-     is up, and what FlareWarden would create, in monitors. Then give the sign-up link
-     from the result (`links.sign_up`) exactly as it is, and ask them to come back to this
-     conversation once they've signed up. Signing up carries nothing from the
-     conversation, so the preview stays here. When they're back, go to step 3 with the
+   - **They don't:** monitoring needs an account, so give the sign-up link
+     (https://app.flarewarden.com/auth/register) exactly as it is, right away, and say
+     you'll set the site up as soon as they're back: they sign up and verify their email
+     in the browser, then come back to this conversation and say so. Signing up carries
+     nothing from the conversation, so keep the URL here. Run no preview unless they ask
+     what monitoring would cover first; then `recommend_monitoring` with the site shows
+     it (no sign-in, stores nothing about them). When they're back, go to step 3 with the
      same URL.
 3. Call `get_account_overview`. If the user isn't signed in yet, it answers that sign-in
    is needed. That is the sign-in starting, not a fault, and nothing was lost: say so in
@@ -44,13 +46,21 @@ check, dependency, cron job or anomaly detection uses one more.
    viewer) gets the dashboard's own refusal: pass it on and stop. Never try another way
    round.
 
+**Asking.** When you put a choice to the user (a plan's decisions, or a yes before
+anything is created, published, sent or spent) and the client can show choices (Claude
+Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
+option first and marked, at most four questions at a time, and for a yes the action
+itself and "Change something". A decision with more options than the prompt shows, or one
+that needs typed text, goes in a message instead.
+
 ## The loop: plan, decide, create
 
 1. **Plan.** Call `plan_site` with the URL, and a name or group if the user gave one.
    Planning changes nothing and costs nothing. It returns a plan id (`pl_…`), what it
    detected on the site (hosting, CDN, DNS, payments, email and so on, with the evidence)
    and a list of `decisions`.
-2. **Ask, once.** Put all the decisions to the user in one message. For each, give the
+2. **Ask, once.** Put all the decisions to the user together (as choices where the client
+   can show them; see **Asking**). For each, give the
    question (`ask`), why it matters (`why`), the options with our recommendation marked,
    and the cost in units where an option spends them (`cost_units`).
    - If the user says "you choose" or "do what you recommend", use each decision's
@@ -62,12 +72,16 @@ check, dependency, cron job or anomaly detection uses one more.
    the answers back. Repeat until the plan says `ready`.
 4. **Confirm the cost.** A ready plan has a summary with the total, for example
    "Create 1 website, 3 content checks and 2 dependencies (6 monitors; you'll have 3
-   left)?". Show it and wait for a yes. This is the only moment units are spent.
+   left)?". Show it and wait for a yes (as a choice: create it, or change something). This
+   is the only moment units are spent.
 5. **Create.** Call `create_site` with the plan id. Retrying is safe: the same plan
    returns the first result, never a second site. If it says `setting up`, check back
    with `get_site`; the first check results normally arrive within one check interval.
-6. **Next.** The result's `next` lists up to three useful follow-ups, such as an alert
-   channel, a status page or a teammate. Offer them in that order; don't do them unasked.
+6. **Next.** Down alerts are emailed to the member's own address from the start, so "email
+   me" needs nothing more; another address or a chat channel is managing-alerts-and-team's.
+   The result's `next` lists up to three useful follow-ups, such as an alert channel, a
+   status page or a teammate. Offer them in that order (as choices where the client can
+   show them); don't do them unasked.
 
 ## What the decisions mean, and what we recommend
 

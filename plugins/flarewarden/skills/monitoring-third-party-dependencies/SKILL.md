@@ -30,6 +30,13 @@ uses one monitor unit and belongs to one site.
    **A site not monitored yet** is set up first (setting-up-website-monitoring): its plan
    finds the site's services and asks these same questions.
 
+**Asking.** When you put a choice to the user (a plan's decisions, or a yes before
+anything is created, published, sent or spent) and the client can show choices (Claude
+Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
+option first and marked, at most four questions at a time, and for a yes the action
+itself and "Change something". A decision with more options than the prompt shows, or one
+that needs typed text, goes in a message instead.
+
 ## 1. Which services
 
 - **"What does acme.com depend on?"** Call `plan_dependency` with only `site`. It reads

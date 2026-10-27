@@ -40,6 +40,13 @@ None of this costs extra monitor units; it comes with the website.
    tracking a subdomain needs a member who may edit the site; anyone else gets the
    dashboard's refusal: pass it on and stop.
 
+**Asking.** When you put a choice to the user (a plan's decisions, or a yes before
+anything is created, published, sent or spent) and the client can show choices (Claude
+Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
+option first and marked, at most four questions at a time, and for a yes the action
+itself and "Change something". A decision with more options than the prompt shows, or one
+that needs typed text, goes in a message instead.
+
 ## Reading what's there
 
 `get_site` with `include`:
