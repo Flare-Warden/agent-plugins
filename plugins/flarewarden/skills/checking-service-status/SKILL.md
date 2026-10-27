@@ -67,9 +67,12 @@ checks from the public internet. Say so, and suggest checking from inside the ne
 ## 4. When the user wants more
 
 - "Tell me next time", "keep an eye on it", "check it every minute": a one-off check
-  can't do that. A FlareWarden account watches the site, and the services it
-  depends on, and alerts the user: https://app.flarewarden.com/auth/register. With the
-  MCP server signed in, the setting-up-website-monitoring skill walks through it.
+  can't do that. A FlareWarden account watches the site, and the services it depends
+  on, and alerts the user. Ask whether they have one. If they do, the
+  setting-up-website-monitoring skill walks through it with the account tools. If they
+  don't, `recommend_monitoring` previews what monitoring the site would look like, with
+  no sign-in; give its sign-up link (https://app.flarewarden.com/auth/register) as it is
+  and ask them to come back once they've signed up, to set it up here.
 - If the site is the user's own and already monitored by FlareWarden, their account has
   the full incident evidence: use triaging-incidents.
 - Results end with a `with_an_account` sentence and may carry `next` suggestions. Offer

@@ -1,6 +1,6 @@
 ---
 name: setting-up-website-monitoring
-description: Use when the user wants to monitor a website or API, be alerted when it goes down or its SSL certificate is about to expire, or watch the services it depends on (AWS, Cloudflare, Stripe and others), a page's content, its DNS records or a public status page for it ("set up monitoring for acme.com", "tell me if my store goes offline", "we just launched, how will we know if it breaks?", "also watch Stripe for our checkout", "make sure the Buy button stays on the pricing page", "give our customers a status page"). Walks through FlareWarden's plan, decide, create loop with the signed-in FlareWarden MCP tools (plan_site, plan_dependency, create_site), so nothing is created or spent until the user has seen the plan and its cost. For many client sites at once use onboarding-client-portfolio; for cron jobs and scheduled tasks use monitoring-cron-jobs.
+description: Use when the user wants to start monitoring a website or API, be alerted when it goes down, or set up a new site together with the services it runs on (AWS, Cloudflare, Stripe and others, even when the user lists them) and checks on a page's content ("set up monitoring for acme.com", "tell me if my store goes offline", "we just launched, how will we know if it breaks?", "add our API to FlareWarden", "make sure the Buy button stays on the pricing page", "help me get my first site monitored"). Walks through FlareWarden's plan, decide, create loop with the signed-in FlareWarden MCP tools (plan_site, plan_dependency, create_site), so nothing is created or spent until the user has seen the plan and its cost. For many client sites at once use onboarding-client-portfolio; for cron jobs use monitoring-cron-jobs; for a status page use running-status-pages; for a third-party service on a site already monitored use monitoring-third-party-dependencies; for DNS records and certificates use watching-dns-and-certificates.
 ---
 
 # Setting up website monitoring with FlareWarden
@@ -13,14 +13,22 @@ check, dependency, cron job or anomaly detection uses one more.
 
 ## Before you start
 
-1. These steps use the FlareWarden MCP server, signed in (tools such as
+1. These steps use the FlareWarden MCP server (tools such as `recommend_monitoring` and
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
-   `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client; once the user has signed in, call it again.
-2. **No account yet?** `start_monitoring` takes the user's email and the site's URL and
-   emails them a confirmation link; clicking it creates an account with the site
-   already set up. It emails a real person, so confirm the address with the user first.
+   `https://mcp.flarewarden.com/mcp`.
+2. **Ask whether the user has a FlareWarden account**, unless they already said. Don't
+   assume either way.
+   - **They have one:** go to step 3. The first account tool call opens FlareWarden's
+     sign-in in the client; once the user has signed in, call it again.
+   - **They don't:** call `recommend_monitoring` with the site. It needs no sign-in and
+     stores nothing about the user. Show them the preview: the services the site relies on
+     and their status now, when the certificate expires, the DNS summary, whether the site
+     is up, and what FlareWarden would create, in monitors. Then give the sign-up link
+     from the result (`links.sign_up`) exactly as it is, and ask them to come back to this
+     conversation once they've signed up. Signing up carries nothing from the
+     conversation, so the preview stays here. When they're back, go to step 3 with the
+     same URL.
 3. Call `get_account_overview`. It says the plan, how many monitor units are left, the
    member's role and what they may do. A member who may not add sites (a viewer) gets
    the dashboard's own refusal: pass it on and stop. Never try another way round.
@@ -75,30 +83,22 @@ Repeat the plan's wording; never pick for the user.
 
 - **A third-party service:** `search_service_catalog` answers "can you watch X?". Then
   `plan_dependency` with the site (and the service or its status page URL), the same
-  questions as above, and `add_dependency` with the plan id (1 unit).
+  questions as above, and `add_dependency` with the plan id (1 unit). The
+  monitoring-third-party-dependencies skill covers regions, components and history.
 - **Page content** ("make sure the Buy button is there", "tell me if the price changes"):
   `plan_content_check` with the site, the page and what to watch for. It tests the check
   against the live page now and says whether it matches today; then
   `add_content_check` (1 unit). The page must be on the site's own host.
-- **Subdomains:** `get_site` with `include` set to subdomains lists the ones found in
-  certificate logs. Tracking a subdomain's certificate is free
-  (`track_subdomain_certificate`); monitoring it as a site is `plan_site` (1 unit).
-- **DNS records** ("watch our MX records", "alert if www stops pointing at Vercel"):
-  `plan_dns_watch` shows today's values and asks which record types and whether to alert
-  when they change or when the name stops resolving; then `add_dns_watch`. Watches are
-  free, up to 20 a site, for names under the site's own domain. Removing one is done on
-  the site's DNS page (the result links it); `get_site` with `include` set to dns lists them.
-- **A status page:** `plan_status_page` from the site suggests an address (slug),
-  branding found on the site and components grouped by kind. A status page is public the
-  moment it is created, so confirm its name, address and what it shows, and answer the
-  plan's `publish` decision only with the user's yes, before `create_status_page`. "You
-  choose" never publishes. `update_status_page` changes one section at a time (general,
-  branding, display or seo); setting a custom domain returns the CNAME record to create,
-  and the address (slug) never changes. `add_status_page_component`,
-  `update_status_page_component` and `remove_status_page_component` change what a page
-  shows. Removing a site takes the check rows shown under it too. Removing a group keeps
-  what is in it on the page, at the top level, unless the user asks for everything in it
-  to go (`group_contents: remove`). Deleting the page itself is done in the dashboard.
+- **DNS records and certificates:** SSL expiry, the site's own DNS records and
+  certificate logs are watched with every website. `plan_dns_watch` then `add_dns_watch`
+  watch more names under the site's domain (MX, `_dmarc`, a `www` CNAME; no units, up to
+  20 a site), and `track_subdomain_certificate` a subdomain's certificate (no units). The
+  watching-dns-and-certificates skill covers them.
+- **A status page:** `plan_status_page` from the site suggests an address, branding and
+  what it shows. A status page is public the moment it is created, so confirm its name,
+  address and what it shows, and answer the plan's `publish` decision only with the
+  user's yes, before `create_status_page`. "You choose" never publishes. The
+  running-status-pages skill covers editing it, custom domains and components.
 - **Changes:** `update_monitor` changes a site's interval or group (and a check's own
   settings); `set_monitor_paused` pauses or resumes. Pausing frees no room on the plan;
   removing a monitor does, and that is done in the dashboard.

@@ -1,6 +1,6 @@
 {
   "name": "flarewarden",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Check whether any website or service such as Stripe or AWS is down, and monitor your own sites, the services they depend on, cron jobs and status pages with FlareWarden.",
   "author": {
     "name": "FlareWarden",
@@ -16,7 +16,7 @@
   "interface": {
     "displayName": "FlareWarden",
     "shortDescription": "Uptime and outage monitoring",
-    "longDescription": "Check whether any website or service such as Stripe, AWS or GitHub is down, from the vendor's own status page and FlareWarden's checks from several regions, with no account needed. With a FlareWarden account, set up monitoring for your own sites, the services they depend on, page content and cron jobs, read incidents with their evidence, and write uptime reports. Nothing is created or spent until you have seen the plan and its cost.",
+    "longDescription": "Check whether any website or service such as Stripe, AWS or GitHub is down, from the vendor's own status page and FlareWarden's checks from several regions, with no account needed. With a FlareWarden account, set up monitoring for your own sites, the services they depend on, page content, cron jobs, DNS records and certificates, run status pages, manage the team and where alerts go, read incidents with their evidence, and write uptime reports. Nothing is created or spent until you have seen the plan and its cost.",
     "developerName": "FlareWarden",
     "category": "Developer Tools",
     "capabilities": ["Read", "Write"],

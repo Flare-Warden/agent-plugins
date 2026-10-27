@@ -15,6 +15,11 @@ client's sites together, and let each client see only their own.
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client.
+   - Ask whether the user has a FlareWarden account, unless they already said. If they
+     don't, preview one or two of the sites with `recommend_monitoring` (no sign-in, one
+     site at a time), give the sign-up link from its result as it is, and ask them to
+     come back once they've signed up. Keep the list here: signing up carries nothing
+     from the conversation.
 2. Call `get_account_overview`: the plan, monitor units left, seats, and the member's
    role. Adding sites needs a member who may create monitors; inviting clients needs an
    owner or admin. If the member can't, pass on the refusal and stop.

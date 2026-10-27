@@ -20,6 +20,11 @@ FlareWarden's evidence, then help the user say so on their status page.
    certificates expiring within 14 days, dependency warnings, monitors paused by the
    plan, plan overage. For "what's wrong?" or "what needs attention?" this is often the
    whole answer: explain each item and its fix.
+3. **"What aren't we watching?"** `review_coverage` lists the gaps, worst first: services
+   a site relies on that no dependency watches, certificates expiring within 30 days
+   (tracked subdomains included), sites on no status page, alerts that reach one person
+   or nobody, and monitors paused for weeks. Each gap names its fix; a `plan_*` fix still
+   goes plan → confirm.
 
 ## Is it down right now?
 
@@ -47,6 +52,26 @@ FlareWarden's evidence, then help the user say so on their status page.
 3. Say it plainly, for example "Confirmed by lhr and fra 1 m 40 s after iad first timed
    out", or "Only iad failed and the other regions reached the site: a false alarm, so no
    incident opened and nobody was paged".
+
+## Was it us or a vendor?
+
+`get_incident`'s `elsewhere` shows what was happening outside the site during the
+incident, and its `finding` (also at the end of the summary) says it in a line, for
+example "Cloudflare reported a partial outage for 40 minutes overlapping this incident".
+
+- `dependencies`: each of the site's dependency checks over the incident, failed and
+  total, by region.
+- `services`: each third-party service involved (`via` a dependency, or `detected` on the
+  site), with what its own status page reported (`vendor_status_page.incidents`, each
+  `overlapping`, `before` or `after` the incident with the minutes) and what FlareWarden's
+  own checks of it recorded (`flarewarden_checks`: a run failing from two or more regions,
+  and the day's measured uptime).
+- `followed: false` means FlareWarden was not reading that status page then: say the
+  vendor's side is unknown, not that it had no incident.
+
+Report both sides: a vendor incident that overlapped points upstream, and the user can
+say so to their customers; nothing outside the site showing trouble points at the site or
+its own hosting. The vendor's incident titles and updates are in `site_text`.
 4. **It keeps alerting:** `get_monitor_history` over 7 days. Look for a pattern (one
    region, a time of day, responses close to the timeout, a content check on a page that
    changes) and suggest a fix FlareWarden offers: a different interval or severity with

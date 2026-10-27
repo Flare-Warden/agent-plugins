@@ -5,7 +5,7 @@ your own sites, the services they depend on, cron jobs and status pages with
 [FlareWarden](https://flarewarden.com), from your AI agent.
 
 This repository holds one plugin for Claude Code, Cursor and Codex: the FlareWarden MCP
-server (`https://mcp.flarewarden.com/mcp`) and six skills that guide the agent through
+server (`https://mcp.flarewarden.com/mcp`) and ten skills that guide the agent through
 common jobs.
 
 ## Install
@@ -30,12 +30,17 @@ also follows the Agent Plugins standard (`plugins/flarewarden/plugin.json`).
 - Is a service such as Stripe or AWS down right now, going by its own status page and
   FlareWarden's checks.
 - Does a website answer, checked from several regions at once.
-- What to monitor for a site, and how FlareWarden works.
+- A preview of a site's monitoring: the services it depends on and their status now, when
+  its certificate expires, its DNS, whether it is up, and what FlareWarden would set up.
+  To go ahead, sign up at https://app.flarewarden.com/auth/register and come back: the
+  agent signs in and sets up what the preview showed. Signing up carries nothing from the
+  conversation.
+- How FlareWarden works.
 
 **With a FlareWarden account** (the first account question asks you to sign in):
 
-- Set up monitoring for sites, the services they depend on, content checks, cron jobs and
-  DNS records.
+- Set up monitoring for sites, the services they depend on, content checks, cron jobs, DNS
+  records and certificates.
 - Run status pages, post incidents and schedule maintenance.
 - Report on uptime and incidents, manage the team, alert emails and webhooks.
 
@@ -50,11 +55,15 @@ and billing, stay in the dashboard.
 | Skill | Use it to |
 | --- | --- |
 | `checking-service-status` | Find out whether a website or service is down. No account needed. |
-| `setting-up-website-monitoring` | Monitor one site, its dependencies, content, DNS and a status page. |
+| `setting-up-website-monitoring` | Start monitoring a site, with its dependencies and content checks. |
 | `onboarding-client-portfolio` | Set up an agency's client sites, grouped per client, with client invitations. |
 | `writing-uptime-reports` | Write uptime and SLA reports from your account's figures. |
 | `monitoring-cron-jobs` | Watch scheduled jobs with a heartbeat the job pings. |
 | `triaging-incidents` | Check whether an outage was real, what caused it, and what to post. |
+| `running-status-pages` | Create a public status page and change its settings, custom domain and components. |
+| `monitoring-third-party-dependencies` | Watch the services a site relies on: which components and regions, and how serious each is. |
+| `watching-dns-and-certificates` | Get alerts when DNS records or certificates change, stop resolving or near expiry. |
+| `managing-alerts-and-team` | Invite people, change roles, choose your alert emails, and connect Slack, Discord, Google Chat or webhooks. |
 
 ## Links
 
