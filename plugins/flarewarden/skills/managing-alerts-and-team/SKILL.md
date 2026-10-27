@@ -16,7 +16,9 @@ alerts are sent (Slack, Discord, Google Chat, Microsoft Teams, webhooks), and wh
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client. The conversation doesn't carry on by itself when sign-in
    finishes: ask the user to reply here once the browser says they're signed in, then
-   continue.
+   continue. An answer that sign-in is needed is that sign-in starting, not a fault: in
+   Claude Code, FlareWarden then shows as needing authentication until the user runs
+   `/mcp`, picks flarewarden and chooses Authenticate.
 2. Call `get_account_overview` for the member's role. The team, webhook and audit log
    tools are for owners and admins; every member reads and changes their own alert
    emails. A member who may not gets the dashboard's own refusal: pass it on and stop.

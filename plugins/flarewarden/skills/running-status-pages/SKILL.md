@@ -18,7 +18,9 @@ created, and every change to it shows on the public page once saved.
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client. The conversation doesn't carry on by itself when sign-in
    finishes: ask the user to reply here once the browser says they're signed in, then
-   continue.
+   continue. An answer that sign-in is needed is that sign-in starting, not a fault: in
+   Claude Code, FlareWarden then shows as needing authentication until the user runs
+   `/mcp`, picks flarewarden and chooses Authenticate.
 2. Call `get_account_overview` for the member's role. Owners and admins create pages;
    owners, admins and editors change them; viewers and monitor-only members can't. A
    member who may not gets the dashboard's own refusal: pass it on and stop.

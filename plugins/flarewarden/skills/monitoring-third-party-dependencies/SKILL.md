@@ -19,7 +19,9 @@ uses one monitor unit and belongs to one site.
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client. The conversation doesn't carry on by itself when sign-in
    finishes: ask the user to reply here once the browser says they're signed in, then
-   continue.
+   continue. An answer that sign-in is needed is that sign-in starting, not a fault: in
+   Claude Code, FlareWarden then shows as needing authentication until the user runs
+   `/mcp`, picks flarewarden and chooses Authenticate.
 2. Call `get_account_overview` for the monitor units left and the member's role. Adding
    a dependency needs a member who may add monitors (an owner, an admin, or an editor
    whose scope covers dependencies); anyone else gets the dashboard's refusal: pass it on

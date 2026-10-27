@@ -17,7 +17,9 @@ words, and laying it out for the reader.
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client. The conversation doesn't carry on by itself when sign-in
    finishes: ask the user to reply here once the browser says they're signed in, then
-   continue.
+   continue. An answer that sign-in is needed is that sign-in starting, not a fault: in
+   Claude Code, FlareWarden then shows as needing authentication until the user runs
+   `/mcp`, picks flarewarden and chooses Authenticate.
 2. Settle three things, asking only what the request leaves open:
    - **scope:** one site, a group (an agency's client), or the whole account;
    - **range:** the last 24 hours, 7, 30 or 90 days. These are rolling windows ending

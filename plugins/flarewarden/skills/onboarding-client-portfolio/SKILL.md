@@ -16,8 +16,11 @@ client's sites together, and let each client see only their own.
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
    sign-in in the client. The conversation doesn't carry on by itself when sign-in
    finishes: ask the user to reply here once the browser says they're signed in, then
-   continue.
-   - Ask whether the user has a FlareWarden account, unless they already said. If they
+   continue. An answer that sign-in is needed is that sign-in starting, not a fault: in
+   Claude Code, FlareWarden then shows as needing authentication until the user runs
+   `/mcp`, picks flarewarden and chooses Authenticate.
+   - Before calling any account tool, ask whether the user has a FlareWarden account,
+     unless they already said: an account tool called first only asks for sign-in. If they
      don't, preview one or two of the sites with `recommend_monitoring` (no sign-in, one
      site at a time), give the sign-up link from its result as it is, and ask them to
      come back once they've signed up. Keep the list here: signing up carries nothing

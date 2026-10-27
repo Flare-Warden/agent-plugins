@@ -17,8 +17,12 @@ check, dependency, cron job or anomaly detection uses one more.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`.
-2. **Ask whether the user has a FlareWarden account**, unless they already said. Don't
-   assume either way.
+2. **Ask whether the user has a FlareWarden account, before calling any other
+   FlareWarden tool.** Make it your first question unless they already said ("my
+   FlareWarden account", "I've signed up"). Don't assume either way: asking to be
+   emailed, giving an address, owning the site or having FlareWarden connected in the
+   client doesn't tell you. Don't call `get_account_overview` or `plan_site` to find
+   out: an account tool called before sign-in only asks for sign-in.
    - **They have one:** go to step 3.
    - **They don't:** call `recommend_monitoring` with the site. It needs no sign-in and
      stores nothing about the user. Show them the preview: the services the site relies on
@@ -28,12 +32,17 @@ check, dependency, cron job or anomaly detection uses one more.
      conversation once they've signed up. Signing up carries nothing from the
      conversation, so the preview stays here. When they're back, go to step 3 with the
      same URL.
-3. Call `get_account_overview`. If the user isn't signed in yet, this first call opens
-   FlareWarden's sign-in in the client. The conversation doesn't carry on by itself when
-   sign-in finishes: ask the user to reply here once the browser says they're signed in,
-   then call it again. The overview says the plan, how many monitor units are left,
-   the member's role and what they may do. A member who may not add sites (a viewer) gets
-   the dashboard's own refusal: pass it on and stop. Never try another way round.
+3. Call `get_account_overview`. If the user isn't signed in yet, it answers that sign-in
+   is needed. That is the sign-in starting, not a fault, and nothing was lost: say so in
+   a sentence and tell the user how to finish it. Depending on the client a browser
+   window opens, a sign-in link is shown, or FlareWarden shows as needing authentication
+   (in Claude Code: run `/mcp`, pick flarewarden and choose Authenticate; in claude.ai or
+   ChatGPT: FlareWarden's Connect button). The conversation doesn't carry on by itself
+   when sign-in finishes: ask the user to reply here once the browser says they're
+   signed in, then call it again. The overview says the plan, how many monitor units
+   are left, the member's role and what they may do. A member who may not add sites (a
+   viewer) gets the dashboard's own refusal: pass it on and stop. Never try another way
+   round.
 
 ## The loop: plan, decide, create
 
