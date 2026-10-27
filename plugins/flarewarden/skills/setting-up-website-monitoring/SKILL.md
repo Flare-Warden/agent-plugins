@@ -7,7 +7,7 @@ description: Use when the user wants to start monitoring a website or API, be al
 
 FlareWarden checks a site from several regions, rechecks a failed check from other
 regions before it opens an incident, and alerts by email and through the channels the
-account has connected (Slack, Discord, Google Chat, webhooks). Plans have one pool of
+account has connected (Slack, Discord, Google Chat, Microsoft Teams, webhooks). Plans have one pool of
 monitor units: a website uses one, with its SSL and DNS checks included; each content
 check, dependency, cron job or anomaly detection uses one more.
 
@@ -19,8 +19,7 @@ check, dependency, cron job or anomaly detection uses one more.
    `https://mcp.flarewarden.com/mcp`.
 2. **Ask whether the user has a FlareWarden account**, unless they already said. Don't
    assume either way.
-   - **They have one:** go to step 3. The first account tool call opens FlareWarden's
-     sign-in in the client; once the user has signed in, call it again.
+   - **They have one:** go to step 3.
    - **They don't:** call `recommend_monitoring` with the site. It needs no sign-in and
      stores nothing about the user. Show them the preview: the services the site relies on
      and their status now, when the certificate expires, the DNS summary, whether the site
@@ -29,8 +28,11 @@ check, dependency, cron job or anomaly detection uses one more.
      conversation once they've signed up. Signing up carries nothing from the
      conversation, so the preview stays here. When they're back, go to step 3 with the
      same URL.
-3. Call `get_account_overview`. It says the plan, how many monitor units are left, the
-   member's role and what they may do. A member who may not add sites (a viewer) gets
+3. Call `get_account_overview`. If the user isn't signed in yet, this first call opens
+   FlareWarden's sign-in in the client. The conversation doesn't carry on by itself when
+   sign-in finishes: ask the user to reply here once the browser says they're signed in,
+   then call it again. The overview says the plan, how many monitor units are left,
+   the member's role and what they may do. A member who may not add sites (a viewer) gets
    the dashboard's own refusal: pass it on and stop. Never try another way round.
 
 ## The loop: plan, decide, create

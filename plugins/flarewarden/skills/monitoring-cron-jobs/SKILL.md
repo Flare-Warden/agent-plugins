@@ -17,7 +17,9 @@ sites (usually the site or service the job works for).
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
 2. Call `get_account_overview` for the room left and what the member may do, and
    `list_sites` to pick the site the job belongs to. If the account has no site yet, set
    one up first (setting-up-website-monitoring).

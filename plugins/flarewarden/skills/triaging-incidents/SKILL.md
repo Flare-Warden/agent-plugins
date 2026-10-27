@@ -14,7 +14,9 @@ FlareWarden's evidence, then help the user say so on their status page.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
 2. Call `get_account_overview`. It lists open incidents with how each was confirmed, and
    an attention list, worst first: confirmed incidents, cron jobs late or failed, SSL
    certificates expiring within 14 days, dependency warnings, monitors paused by the

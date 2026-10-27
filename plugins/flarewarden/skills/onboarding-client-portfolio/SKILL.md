@@ -14,7 +14,9 @@ client's sites together, and let each client see only their own.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
    - Ask whether the user has a FlareWarden account, unless they already said. If they
      don't, preview one or two of the sites with `recommend_monitoring` (no sign-in, one
      site at a time), give the sign-up link from its result as it is, and ask them to

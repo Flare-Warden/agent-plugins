@@ -15,7 +15,9 @@ words, and laying it out for the reader.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
 2. Settle three things, asking only what the request leaves open:
    - **scope:** one site, a group (an agency's client), or the whole account;
    - **range:** the last 24 hours, 7, 30 or 90 days. These are rolling windows ending

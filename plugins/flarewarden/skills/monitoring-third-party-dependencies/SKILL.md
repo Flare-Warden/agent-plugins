@@ -17,7 +17,9 @@ uses one monitor unit and belongs to one site.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
 2. Call `get_account_overview` for the monitor units left and the member's role. Adding
    a dependency needs a member who may add monitors (an owner, an admin, or an editor
    whose scope covers dependencies); anyone else gets the dashboard's refusal: pass it on

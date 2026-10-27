@@ -63,7 +63,7 @@ and billing, stay in the dashboard.
 | `running-status-pages` | Create a public status page and change its settings, custom domain and components. |
 | `monitoring-third-party-dependencies` | Watch the services a site relies on: which components and regions, and how serious each is. |
 | `watching-dns-and-certificates` | Get alerts when DNS records or certificates change, stop resolving or near expiry. |
-| `managing-alerts-and-team` | Invite people, change roles, choose your alert emails, and connect Slack, Discord, Google Chat or webhooks. |
+| `managing-alerts-and-team` | Invite people, change roles, choose your alert emails, and connect Slack, Discord, Google Chat, Microsoft Teams or webhooks. |
 
 ## Links
 

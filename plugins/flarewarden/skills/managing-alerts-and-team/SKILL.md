@@ -1,12 +1,12 @@
 ---
 name: managing-alerts-and-team
-description: Use when the user wants to change who can use their FlareWarden account or where its alerts go, such as inviting a teammate at a role, changing a member's role, withdrawing an invitation, seeing who is on the team, getting more or fewer alert emails, pausing them, sending alerts to Slack, Discord, Google Chat or their own webhook endpoint, testing that alerts arrive, or finding out who changed something in the account ("add Sam to our account as an admin", "make Dana an editor", "stop emailing me about SSL changes", "pause my alerts while I'm on holiday", "send our down alerts to Slack", "add a webhook to our incident endpoint", "did the webhook get the test?", "who paused the API monitor?"). Uses the signed-in FlareWarden MCP tools (list_team, invite_member, change_member_role, update_my_notifications, add_webhook, test_webhook, search_audit_log). For a client who should see only their own sites, or an agency's client sites, use onboarding-client-portfolio. Not for on-call schedules or paging rotations.
+description: Use when the user wants to change who can use their FlareWarden account or where its alerts go, like inviting a teammate at a role, changing a member's role, withdrawing an invitation, seeing who is on the team, getting more or fewer alert emails, pausing them, sending alerts to Slack, Discord, Google Chat, Teams or their own webhook endpoint, testing that alerts arrive, or finding out who changed something in the account ("add Sam to our account as an admin", "make Dana an editor", "stop emailing me about SSL changes", "pause my alerts while I'm on holiday", "send our down alerts to Slack", "add a webhook to our incident endpoint", "did the webhook get the test?", "who paused the API monitor?"). Uses the signed-in FlareWarden MCP tools (list_team, invite_member, change_member_role, update_my_notifications, add_webhook, test_webhook, search_audit_log). For a client who should see only their own sites, or an agency's client sites, use onboarding-client-portfolio. Not for on-call schedules or paging rotations.
 ---
 
 # Managing the team and where alerts go
 
 Who can see and change the account, which alert emails each member gets, where else
-alerts are sent (Slack, Discord, Google Chat, webhooks), and who changed what.
+alerts are sent (Slack, Discord, Google Chat, Microsoft Teams, webhooks), and who changed what.
 
 ## Before you start
 
@@ -14,7 +14,9 @@ alerts are sent (Slack, Discord, Google Chat, webhooks), and who changed what.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
 2. Call `get_account_overview` for the member's role. The team, webhook and audit log
    tools are for owners and admins; every member reads and changes their own alert
    emails. A member who may not gets the dashboard's own refusal: pass it on and stop.
@@ -84,18 +86,22 @@ invitations together.
 - "Pause my alerts" is `email_alerts: false`. Say that nothing will be emailed until it is
   turned back on, and offer to turn it back on later.
 - Nobody changes another member's switches; each member sets their own. Alert grouping
-  and the Slack, Discord and Google Chat switches are account-wide settings on the
+  and the Slack, Discord, Google Chat and Microsoft Teams switches are account-wide settings on the
   Notifications page in the dashboard.
 
-## Slack, Discord, Google Chat and webhooks
+## Slack, Discord, Google Chat, Microsoft Teams and webhooks
 
 - **Where alerts go now:** `list_webhooks` lists each destination with its host (never
   the full URL), its events and sites, whether it is active or paused, and whether
   deliveries are failing.
-- **Slack, Discord or Google Chat:** `add_webhook` with `destination` slack, discord or
-  googlechat returns the FlareWarden page where the user pastes the channel's webhook URL.
-  That URL works as a password: never ask for it in the chat or pass it to a tool. If the
-  user pastes one anyway, don't use it; give them the page.
+- **Slack, Discord, Google Chat or Microsoft Teams:** `add_webhook` with `destination`
+  slack, discord, googlechat or teams returns the FlareWarden page where the user pastes the
+  channel's webhook URL. That URL works as a password: never ask for it in the chat or pass
+  it to a tool. If the user pastes one anyway, don't use it; give them the page.
+- **Microsoft Teams** takes a workflow URL: in the Teams channel, Workflows, the "Send
+  webhook alerts to a channel" template. Office 365 connector URLs stopped working in May
+  2026. A Teams test that arrives means Teams started the workflow; if no card shows in the
+  channel, the workflow's run history in Teams says why.
 - **Their own endpoint:** `add_webhook` with `destination` custom, an HTTPS `url`, a
   `name`, the `events` and optionally `sites` (every site when left out). Show the user
   the host, events and sites and wait for a yes before creating it. The result gives a

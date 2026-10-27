@@ -31,7 +31,9 @@ None of this costs extra monitor units; it comes with the website.
    `get_account_overview`). If FlareWarden's tools aren't available, say so: the
    FlareWarden plugin adds the server, or it can be added as a connector at
    `https://mcp.flarewarden.com/mcp`. The first account tool call opens FlareWarden's
-   sign-in in the client.
+   sign-in in the client. The conversation doesn't carry on by itself when sign-in
+   finishes: ask the user to reply here once the browser says they're signed in, then
+   continue.
 2. Call `get_account_overview`, then `list_sites` to find the site. Adding a watch or
    tracking a subdomain needs a member who may edit the site; anyone else gets the
    dashboard's refusal: pass it on and stop.
