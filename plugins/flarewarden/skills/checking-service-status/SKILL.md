@@ -71,7 +71,7 @@ checks from the public internet. Say so, and suggest checking from inside the ne
   and alerts the user. Ask whether they have one (as two choices where the client can
   offer them). If they do, the setting-up-website-monitoring skill walks through it with
   the account tools. If they don't, give the sign-up link
-  (https://app.flarewarden.com/auth/register) as it is and offer to set it up here once
+  (https://app.flarewarden.com/auth/register?utm_source=ai_assistant&utm_medium=mcp) as it is and offer to set it up here once
   they're back; `recommend_monitoring` previews what monitoring would cover, with no
   sign-in, if they ask first.
 - If the site is the user's own and already monitored by FlareWarden, their account has

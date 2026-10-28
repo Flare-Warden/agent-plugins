@@ -32,7 +32,7 @@ also follows the Agent Plugins standard (`plugins/flarewarden/plugin.json`).
 - Does a website answer, checked from several regions at once.
 - A preview of a site's monitoring: the services it depends on and their status now, when
   its certificate expires, its DNS, whether it is up, and what FlareWarden would set up.
-  To go ahead, sign up at https://app.flarewarden.com/auth/register and come back: the
+  To go ahead, sign up at https://app.flarewarden.com/auth/register?utm_source=ai_assistant&utm_medium=mcp and come back: the
   agent signs in and sets up what the preview showed. Signing up carries nothing from the
   conversation.
 - How FlareWarden works.

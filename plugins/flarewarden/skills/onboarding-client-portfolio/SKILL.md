@@ -22,7 +22,7 @@ client's sites together, and let each client see only their own.
    - Before calling any account tool, ask whether the user has a FlareWarden account,
      unless they already said (as two choices where the client can offer them): an
      account tool called first only asks for sign-in. If they don't, monitoring needs
-     one: give the sign-up link (https://app.flarewarden.com/auth/register) as it is,
+     one: give the sign-up link (https://app.flarewarden.com/auth/register?utm_source=ai_assistant&utm_medium=mcp) as it is,
      right away, and offer to add the sites once they're back. Preview a site with
      `recommend_monitoring` (no sign-in, one site at a time) only if they ask what it
      would cover. Keep the list here: signing up carries nothing from the conversation.
@@ -39,8 +39,7 @@ anything is created, published, sent or spent) and the client can show choices (
 Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
 option first and marked, at most four questions at a time, and for a yes the action
 itself and "Change something". This holds for every question, however many steps in: a
-dependency's components, severities and interval, a confirm, and the follow-ups at the
-end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
+dependency's components and severities, a confirm, and the follow-ups at the end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
@@ -62,8 +61,13 @@ all …"), pass its next sentence and link on as they are.
    - **groups**: one per client (recommended for agencies), one group for all, or a
      mapping the user gives;
    - **the total cost against the room left**.
-3. Put them to the user in one message with the recommendations and costs. "You choose"
-   means each decision's `if_user_unsure`.
+3. Offer the recommendations first: the plan's `with_the_recommendations` says what
+   taking every one creates and how many monitors. Ask it as two choices, "Use
+   FlareWarden's recommendations" with that count, and "Let me choose"; on the first call
+   `plan_site` with the plan id and `accept_recommended: true`. If `fits` is false, go
+   straight to the decisions. Otherwise put them to the user in one message with the
+   recommendations and costs. "You choose" means each decision's `if_user_unsure`. The
+   workspace finds `from_workspace` takes describe one site, so a bulk plan refuses them.
 4. **When it doesn't fit,** lay the options out with numbers, using the plan's own
    figures. For example: "12 sites with 2 dependencies each is 36 monitors and you have
    25 left. Websites only is 12 and fits; the top 8 with their dependencies is 24 and

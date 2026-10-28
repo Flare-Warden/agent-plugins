@@ -35,8 +35,7 @@ anything is created, published, sent or spent) and the client can show choices (
 Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
 option first and marked, at most four questions at a time, and for a yes the action
 itself and "Change something". This holds for every question, however many steps in: a
-dependency's components, severities and interval, a confirm, and the follow-ups at the
-end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
+dependency's components and severities, a confirm, and the follow-ups at the end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
@@ -54,7 +53,9 @@ all …"), pass its next sentence and link on as they are.
   watches are left out.
 - **A named service:** `plan_dependency` with `site` and `dependency` (a name such as
   Stripe or AWS), or `url` (its status page). `search_service_catalog` answers "can you
-  watch X?" first if the user isn't sure.
+  watch X?" first if the user isn't sure. A service the catalogue doesn't list is
+  watched too: give its name and `url`, its public status page (or a public URL that
+  answers while it's up); ask the user for it if you don't know it.
 - A site watches each service once: planning one it already watches is refused.
 
 ## 2. The questions, one step at a time
@@ -80,9 +81,11 @@ takes it. A decision with no recommendation must be asked.
    - **Treat as degraded** for features: payments, email, search, analytics. The site
      shows Degraded; status pages show degraded performance.
    - Both send alerts. The recommendation comes with its reason; repeat it.
-5. **How often:** every 5 minutes is recommended, since status pages update every few
-   minutes and checking more often finds nothing sooner. Some services have a minimum
-   interval, and the plan offers only what the account's plan allows.
+5. **How often** isn't asked: FlareWarden checks every 5 minutes (or the service's own
+   minimum), since status pages update every few minutes and checking more often finds
+   nothing sooner. The summary says the interval. If the user asks for another, answer
+   `deps.<key>.interval` with it in seconds; only what the account's plan allows is
+   taken.
 6. **Credentials, only through a secure link.** A status page run on Better Stack,
    Checkly, Pulsetic, updown.io, Xitoring, Freshstatus, AdminLabs or StatusCast (often
    the user's own monitoring) lists its components only to that account's API token or

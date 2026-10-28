@@ -28,8 +28,7 @@ anything is created, published, sent or spent) and the client can show choices (
 Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
 option first and marked, at most four questions at a time, and for a yes the action
 itself and "Change something". This holds for every question, however many steps in: a
-dependency's components, severities and interval, a confirm, and the follow-ups at the
-end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
+dependency's components and severities, a confirm, and the follow-ups at the end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
@@ -58,7 +57,8 @@ invitations, and the seats used and allowed.
    `site_checks` (all, content or dependencies).
 2. It emails a real person. Before calling it, show the user the exact address, the role
    or the sites, and what that person will be able to do, and wait for a yes. Use the
-   address exactly as the user gave it; never guess or complete one.
+   address exactly as the user gave it; never guess or complete one. FlareWarden writes
+   the email itself, so don't offer to show its text.
 3. Send an `idempotency_key`, so a call repeated after a lost reply doesn't email twice.
 4. Inviting the same address again replaces the pending invitation and emails it again:
    that is how to resend one.

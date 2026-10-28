@@ -45,8 +45,7 @@ anything is created, published, sent or spent) and the client can show choices (
 Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
 option first and marked, at most four questions at a time, and for a yes the action
 itself and "Change something". This holds for every question, however many steps in: a
-dependency's components, severities and interval, a confirm, and the follow-ups at the
-end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
+dependency's components and severities, a confirm, and the follow-ups at the end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
