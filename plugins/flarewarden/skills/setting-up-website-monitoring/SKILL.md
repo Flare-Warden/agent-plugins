@@ -50,8 +50,16 @@ check, dependency, cron job or anomaly detection uses one more.
 anything is created, published, sent or spent) and the client can show choices (Claude
 Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
 option first and marked, at most four questions at a time, and for a yes the action
-itself and "Change something". A decision with more options than the prompt shows, or one
-that needs typed text, goes in a message instead.
+itself and "Change something". This holds for every question, however many steps in: a
+dependency's components, severities and interval, a confirm, and the follow-ups at the
+end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
+and "Change it"; severities for many components become "As recommended" and "Choose
+each". Only a question that needs typed text goes in a message.
+
+**After each change.** Don't end on "done": offer what's left as one choice (the result's
+`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
+a teammate), with "Nothing for now". When a result says the plan is full ("You're using
+all …"), pass its next sentence and link on as they are.
 
 ## The loop: plan, decide, create
 
@@ -68,8 +76,8 @@ that needs typed text, goes in a message instead.
    - Don't invent options the plan didn't offer.
 3. **Answer.** Call `plan_site` again with the plan id and the answers. For each
    dependency the user kept, `plan_dependency` asks its own questions one step at a
-   time (which feed, regions, components, severity); ask those the same way and send
-   the answers back. Repeat until the plan says `ready`.
+   time (which feed, regions, components, severity); ask those as choices too (see
+   **Asking**) and send the answers back. Repeat until the plan says `ready`.
 4. **Confirm the cost.** A ready plan has a summary with the total, for example
    "Create 1 website, 3 content checks and 2 dependencies (6 monitors; you'll have 3
    left)?". Show it and wait for a yes (as a choice: create it, or change something). This
@@ -77,8 +85,10 @@ that needs typed text, goes in a message instead.
 5. **Create.** Call `create_site` with the plan id. Retrying is safe: the same plan
    returns the first result, never a second site. If it says `setting up`, check back
    with `get_site`; the first check results normally arrive within one check interval.
-6. **Next.** Down alerts are emailed to the member's own address from the start, so "email
-   me" needs nothing more; another address or a chat channel is managing-alerts-and-team's.
+6. **Next.** Down alerts are emailed to the member's own address (`you.email` in
+   `get_account_overview`) from the start, so "email me" needs nothing more. No tool
+   sends a member's alerts to another address, so never offer to: someone else is
+   invited (managing-alerts-and-team), and a chat channel is connected there too.
    The result's `next` lists up to three useful follow-ups, such as an alert channel, a
    status page or a teammate. Offer them in that order (as choices where the client can
    show them); don't do them unasked.

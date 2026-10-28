@@ -33,8 +33,16 @@ sites (usually the site or service the job works for).
 anything is created, published, sent or spent) and the client can show choices (Claude
 Code's AskUserQuestion, for one), ask with it: one question per decision, the recommended
 option first and marked, at most four questions at a time, and for a yes the action
-itself and "Change something". A decision with more options than the prompt shows, or one
-that needs typed text, goes in a message instead.
+itself and "Change something". This holds for every question, however many steps in: a
+dependency's components, severities and interval, a confirm, and the follow-ups at the
+end. A list longer than the prompt shows becomes two choices: "Use the recommended set"
+and "Change it"; severities for many components become "As recommended" and "Choose
+each". Only a question that needs typed text goes in a message.
+
+**After each change.** Don't end on "done": offer what's left as one choice (the result's
+`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
+a teammate), with "Nothing for now". When a result says the plan is full ("You're using
+all …"), pass its next sentence and link on as they are.
 
 ## Steps
 
