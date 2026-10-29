@@ -1,6 +1,6 @@
 ---
 name: onboarding-client-portfolio
-description: Use when an agency, freelancer or consultant wants to monitor many client websites at once, add a list, spreadsheet or CSV of sites, keep each client's sites in their own group, give a client access to only their own sites, or set up regular reports for each client ("add these 20 client sites", "we only have room for 10 of these 12", "let Bluebird see just their two sites", "we signed three new clients, here are their domains", "how do I organise 50 client sites?"). Uses FlareWarden's bulk plan (one plan for up to 50 URLs, with shared decisions and the total cost against the plan's room), groups and monitor-only invitations through the signed-in FlareWarden MCP tools (plan_site, create_site, invite_member). For one site of the user's own use setting-up-website-monitoring.
+description: Use when an agency, freelancer or consultant wants to monitor many client websites at once, add a list, spreadsheet or CSV of sites, keep each client's sites in their own group, give a client access to only their own sites, or set up regular reports for each client ("add these 20 client sites", "we only have room for 10 of these 12", "let Bluebird see just their two sites", "we signed three new clients, here are their domains", "how do I organise 50 client sites?"). Uses FlareWarden's bulk plan (one plan for up to 50 URLs, with shared decisions and the total cost against the plan's room), groups and monitor-only invitations through the signed-in FlareWarden MCP tools (plan_site, create_site, invite_member, change_member_access). For one site of the user's own use setting-up-website-monitoring.
 ---
 
 # Onboarding a client portfolio
@@ -43,10 +43,10 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## 1. Plan every site at once
 
@@ -94,6 +94,11 @@ all …"), pass its next sentence and link on as they are.
   for a yes. Never guess an address.
 - Inviting the same email again replaces the pending invitation; that is how to resend.
   `revoke_invitation` withdraws one that hasn't been accepted.
+- A client already on the team gets a new site with `invite_member` (their email and
+  the site) or `change_member_access` (`access` view or edit): it's added at once, with
+  no invitation or email. `change_member_access` also switches a site between view and
+  edit, or removes one; their last site is removed on the Team page, since that removes
+  them from the team.
 - Seat limits, "users cannot join accounts in different regions" and already-a-member
   come back as refusals in the dashboard's words. Pass them on as they are.
 - For the agency's own staff, an account invitation with a role: admin (everything but

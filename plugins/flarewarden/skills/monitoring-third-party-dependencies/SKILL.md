@@ -39,10 +39,10 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## 1. Which services
 
@@ -120,8 +120,12 @@ takes it. A decision with no recommendation must be asked.
 
 - `update_monitor` with the site and `check` (the dependency) changes its name, severity
   (`critical` or `degraded`) or interval.
-- Changing which components or regions it watches is done in the dashboard, on the
-  dependency.
+- **Which components or regions it watches:** `plan_dependency` with the site and the
+  service it already watches plans the change: what it watches now is marked, those
+  components keep their severity, and only new ones are asked. After a yes,
+  `apply_dependency_change` with the plan id applies it (no monitor spent). A status page
+  dependency's severity follows its components, so `update_monitor` changes severity
+  only for a plain HTTP check.
 - `set_monitor_paused` pauses or resumes it. Pausing frees no room on the plan; removing
   a dependency does, and that is done in the dashboard.
 

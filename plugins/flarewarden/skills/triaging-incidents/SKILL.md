@@ -39,10 +39,10 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## Is it down right now?
 
@@ -142,8 +142,14 @@ page, and the tool and arguments that make it when this connection has that tool
 (1 to 720 minutes), any recurrence (daily, weekly, biweekly or monthly), and whether to
 notify subscribers: only when the user asks. Show the user the text, the time in their
 zone and who is notified; on a yes, `schedule_maintenance` with the draft id.
-`cancel_maintenance` cancels a window that is no longer needed (a recurring one's whole
-schedule), with the site and the window's id from `list_incidents` with kind maintenance.
+`update_maintenance` changes one: `action` end finishes it early, start begins it now
+(it then runs to its scheduled end; the result says how to keep its planned length),
+edit moves, extends or renames it (only the fields given change), pause and resume a
+recurring schedule. A window that notifies subscribers emails them when it moves, starts
+or ends, so confirm those first. `cancel_maintenance` cancels a window that is no longer
+needed (a recurring one's whole schedule). Both take the site and the window: its title,
+or its id from `list_incidents` with kind maintenance, which lists paused schedules too.
+To turn a paused schedule back on, resume it; don't draft a new one.
 
 ## Hard lines
 

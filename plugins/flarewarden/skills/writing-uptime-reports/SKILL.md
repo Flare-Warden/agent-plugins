@@ -22,9 +22,10 @@ words, and laying it out for the reader.
    `/mcp`, picks flarewarden and chooses Authenticate.
 2. Settle three things, asking only what the request leaves open:
    - **scope:** one site, a group (an agency's client), or the whole account;
-   - **range:** the last 24 hours, 7, 30 or 90 days. These are rolling windows ending
-     now. "Last month" or "October" is the last 30 days: say that in the report, or run
-     it at the end of the month;
+   - **range:** the last 24 hours, 7, 30 or 90 days, rolling windows ending now; or a
+     calendar window with `from` and `to` (dates such as 2026-10-01 and 2026-10-31, in
+     the user's time zone, the whole last day included), at most 90 days. "October" or
+     "Q3" is `from` and `to`, not the last 30 or 90 days;
    - **reader:** the user, their team, a client, a board. It decides tone and detail.
 3. If you don't know the group or site names, `list_sites` lists them (with `group` to
    filter).
@@ -38,10 +39,10 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## Steps
 
@@ -49,7 +50,7 @@ all …"), pass its next sentence and link on as they are.
    site or group, and `range`. Per site it returns uptime over the time FlareWarden
    measured, downtime minutes, the number of incidents, the longest, the mean time to
    recover, response time p50 and p95, and certificate and domain expiry dates.
-2. **The incidents.** Call `list_incidents` with the same scope and range (`status`
+2. **The incidents.** Call `list_incidents` with the same scope and range (or `from` and `to`) (`status`
    resolved, or all). For the incidents a reader will ask about (the longest, anything
    customers saw), call `get_incident` for its evidence: when it started and ended, how
    it was confirmed and from which regions, what else it affected.
@@ -71,9 +72,12 @@ all …"), pass its next sentence and link on as they are.
 - **Unknown is not up.** Uptime is measured over the time FlareWarden checked. A `null`
   uptime means nothing was measured: write "not measured", never 100%.
 - **Don't round up.** 99.95% is 99.95%, not 100%. Keep the decimals the result gives.
-- **Plan history.** The range is clamped to the history the plan keeps, and the result's
-  notes say so (for example "Your plan keeps 30 days; showing 30"). Put that in the
-  report.
+- **Downtime and uptime measure different things.** Downtime is the time incidents were
+  open; uptime is the share of checks that passed. When `downtime_includes` names
+  declared or degraded incidents, a site can show downtime beside 100% uptime: say
+  which incidents the downtime counts, rather than calling the figures inconsistent.
+- **Plan history.** A window is held to the history the plan keeps and to 90 days, and
+  the result's notes say when it was narrowed. Put that in the report.
 - **Coverage.** A group or account report reads at most 25 sites; the notes say when it
   covers fewer than the account has. Report per group to cover the rest.
 - **Blocked is not down.** A site that answered but refused automated checks was serving.

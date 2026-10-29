@@ -38,10 +38,10 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## Steps
 
@@ -57,8 +57,9 @@ all …"), pass its next sentence and link on as they are.
      least a minute;
    - **longest normal run:** off unless the user knows it; it can be set later from run
      history;
-   - **severity:** "Treat as an outage" for backups, billing and data sync, "Just tell
-     me" for housekeeping.
+   - **severity:** "Just tell me" for backups, syncs and housekeeping (the alert goes
+     out; the site's status and status pages stay as they are), "Treat as degraded"
+     for a job customers feel, such as billing. An outage marks a serving site down.
 3. **Confirm and add.** Show the summary (one monitor unit) and wait for a yes, then call
    `add_cron_monitor` with the plan id. It returns the ping URL and ready-made snippets:
    crontab, start/complete/fail wrapping, GitHub Actions, Kubernetes CronJob and systemd
@@ -82,7 +83,9 @@ all …"), pass its next sentence and link on as they are.
   their durations, and late or failed runs. `get_account_overview` lists late or failed
   jobs in its attention list.
 - **Changes:** `update_monitor` changes the schedule, grace, longest run or severity.
-  During planned downtime, `set_monitor_paused` pauses it (pausing frees no room).
+  During planned downtime, `set_monitor_paused` with `check` pauses it (pausing frees no
+  room). Pausing its site does not pause it: a site's cron jobs keep alerting until each
+  is paused.
 - **Unusual run times:** after 10 runs, `set_anomaly_detection` can learn the job's normal
   duration (one unit, where the account has anomaly detection; the result says if not).
 

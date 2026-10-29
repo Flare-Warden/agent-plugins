@@ -49,10 +49,10 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## Reading what's there
 
@@ -126,7 +126,8 @@ a DKIM selector such as `s1._domainkey`, a `www` CNAME, NS or CAA.
    - `ssl_expiring` for expiry;
    - `certificate_changed` and `ssl_tls_changes` for changes;
    - `issuer_changed` for an unexpected issuer;
-   - `dns_failures` for DNS failures, record changes and DNS watch alerts.
+   - `dns_failures` for DNS failures, record changes and DNS watch alerts. It is off by
+     default: after adding a watch, check it and offer to turn it on.
 2. The warning days are `ssl_warning_days`, `ssl_urgent_days` and `ssl_critical_days`
    (warning ≥ urgent ≥ critical), in all the user's accounts.
 3. Webhooks subscribed to `ssl.expiring`, `ssl.expired`, `ssl.changed`, `ssl.issued`,

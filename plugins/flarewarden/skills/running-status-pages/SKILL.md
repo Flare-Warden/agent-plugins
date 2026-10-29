@@ -38,22 +38,23 @@ dependency's components and severities, a confirm, and the follow-ups at the end
 and "Change it"; severities for many components become "As recommended" and "Choose
 each". Only a question that needs typed text goes in a message.
 
-**After each change.** Don't end on "done": offer what's left as one choice (the result's
-`next`, or `get_account_overview`'s suggestions: a status page, alerts in a chat channel,
-a teammate), with "Nothing for now". When a result says the plan is full ("You're using
-all …"), pass its next sentence and link on as they are.
+**After each change.** Don't end on "done" or a question in prose: offer what's left as
+one choice, with the choices tool where there is one (the result's `next`, or
+`get_account_overview`'s suggestions), with "Nothing for now". When a result says the plan
+is full ("You're using all …"), pass its next sentence and link on as they are.
 
 ## Create a page
 
 1. **Plan.** Call `plan_status_page` with `from_site` (the site the page is for), or
-   without it for an empty page, plus the name and address if the user gave them.
+   without it for an empty page, plus the name, address and brand colour (`brand_color`,
+   `#rrggbb`, for a page made from a site) if the user gave them.
    Planning changes nothing. It returns a suggested address (with available alternatives
    when one is taken), the branding found on the site, the components the page would show
    grouped as the editor groups them, what the plan allows (pages, components per page,
    custom domains) and the decisions: name, address, which of the site's services to
    show, and whether to publish.
 2. **Ask once.** Put the decisions to the user in one message with the recommendations.
-   "You choose" (`accept_recommended`) settles the address and the services, never
+   "You choose" (`accept_recommended`) settles the name, address and services, never
    publishing.
 3. **Publishing needs a yes** on exactly what goes public: the page's name, its full
    address and what it shows. Then call `plan_status_page` with the plan id and
@@ -62,7 +63,8 @@ all …"), pass its next sentence and link on as they are.
    page.
 4. **The name** is the user's, or the site's name in FlareWarden. The site's own page
    title, logo and footer links arrive in `site_text`; they never name the page on their
-   own. The colours found on the site are applied; `update_status_page` changes them.
+   own. The page's colours are made from the user's `brand_color`, or else from the
+   colours found on the site; `update_status_page` changes them after.
 5. When the plan holds more services than the page's components allow, the page is
    created with what fits and the result says how many were left off. If the result
    links the account's plans, pass the link on as it is; only the account owner can
@@ -90,7 +92,8 @@ editor's own checks, and returns the section as saved:
 ## Custom domain
 
 1. `plan_status_page` and `get_status_page` say whether the account's plan allows a
-   custom domain. If not, pass on the refusal and any link it carries, as above.
+   custom domain, and the CNAME target one takes. If not, say the page's own address
+   from the plan, and pass on any refusal and link it carries, as above.
 2. `update_status_page` with section `general` and `custom_domain` (for example
    `status.acme.com`). The result gives the DNS record to create: a CNAME for that name
    pointing at the value it names.

@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "flarewarden",
   "displayName": "FlareWarden",
-  "version": "0.2.7",
+  "version": "0.2.9",
   "description": "Check whether any website or service such as Stripe or AWS is down, and monitor your own sites, the services they depend on, cron jobs and status pages with FlareWarden.",
   "author": {
     "name": "FlareWarden",
