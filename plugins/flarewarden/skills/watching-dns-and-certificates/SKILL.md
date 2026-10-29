@@ -84,9 +84,10 @@ a DKIM selector such as `s1._domainkey`, a `www` CNAME, NS or CAA.
    resolving**.
 2. **Check today's values with the user.** They are the starting point: a watch alerts on
    any change from them.
-3. **Ask once,** then confirm the watch (the name, types and alert) and wait for a yes.
-   Watches cost no monitor units.
-4. **Add.** Call `add_dns_watch` with the plan id. Repeating it returns the first result.
+3. **Ask once,** then show the ready plan's `confirm` (the name, types and alert) as it
+   is and wait for a yes. Watches cost no monitor units.
+4. **Add.** Call `add_dns_watch` with the plan id and `confirm` unchanged. Repeating it
+   returns the first result.
 5. **The rules,** which come back as refusals in the dashboard's words:
    - the name must be the site's own registrable domain or under it (a site on acme.com
      can't watch `www.other.com`; that needs a site on other.com);

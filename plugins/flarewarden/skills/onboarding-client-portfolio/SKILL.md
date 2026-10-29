@@ -79,9 +79,12 @@ is full ("You're using all …"), pass its next sentence and link on as they are
 
 ## 2. Create
 
-1. Show the ready plan's summary and total cost; create only after a yes.
-2. Call `create_site` with the plan id. It skips sites that are already monitored,
-   reports an outcome per site and is safe to retry: the same plan never creates twice.
+1. Show the ready plan's `confirm` as it is: FlareWarden's sentence naming every site,
+   what each gets and the total. Create only after a yes to it.
+2. Call `create_site` with the plan id and `confirm` unchanged. It skips sites that are
+   already monitored, reports an outcome per site and is safe to retry: the same plan
+   never creates twice. A `confirm_mismatch` refusal means the plan changed (an answer,
+   the room left): show its new sentence and ask again.
 3. Report back per client: created, already monitored (skipped), and anything dropped
    because the room ran out, with the reason the result gives.
 
@@ -127,9 +130,10 @@ For a hosting move, a migration or a client between contracts:
    paused site stays paused until someone resumes it.
 4. For a resume, the plan says which sites may not fit the plan's running monitors; pass
    that on as it is.
-5. After a yes, call `apply_bulk_pause` with the plan id. It reports each site's outcome;
-   a resume that doesn't fit is refused in the dashboard's words and the rest still go
-   ahead. Paused sites still count toward the plan.
+5. Show the plan's `confirm` (it names every site) and, after a yes, call
+   `apply_bulk_pause` with the plan id and `confirm` unchanged. It reports each site's
+   outcome; a resume that doesn't fit is refused in the dashboard's words and the rest
+   still go ahead. Paused sites still count toward the plan.
 
 ## Keeping it tidy
 

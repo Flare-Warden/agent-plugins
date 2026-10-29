@@ -98,10 +98,12 @@ takes it. A decision with no recommendation must be asked.
 
 ## 3. Confirm and add
 
-1. The ready plan's summary says what it creates and costs (one monitor). Show it and
-   wait for a yes.
-2. Call `add_dependency` with the plan id. Repeating it returns the first result, never a
-   second dependency. Its first check arrives within one interval: `get_site` shows it.
+1. The ready plan's `confirm` is FlareWarden's sentence for what it adds and costs (one
+   monitor). Show it as it is and wait for a yes.
+2. Call `add_dependency` with the plan id and `confirm` unchanged; a `confirm_mismatch`
+   refusal means the plan changed, so show its new sentence and ask again. Repeating it
+   returns the first result, never a second dependency. Its first check arrives within
+   one interval: `get_site` shows it.
 3. **When it doesn't fit** the units left, say so with the numbers. If the result links
    the account's plans, pass the link on as it is; only the account owner can change the
    plan, so anyone else is told to ask the owner.
@@ -122,8 +124,9 @@ takes it. A decision with no recommendation must be asked.
   (`critical` or `degraded`) or interval.
 - **Which components or regions it watches:** `plan_dependency` with the site and the
   service it already watches plans the change: what it watches now is marked, those
-  components keep their severity, and only new ones are asked. After a yes,
-  `apply_dependency_change` with the plan id applies it (no monitor spent). A status page
+  components keep their severity, and only new ones are asked. After a yes to its
+  `confirm`, `apply_dependency_change` with the plan id and `confirm` applies it (no
+  monitor spent). A status page
   dependency's severity follows its components, so `update_monitor` changes severity
   only for a plain HTTP check.
 - `set_monitor_paused` pauses or resumes it. Pausing frees no room on the plan; removing

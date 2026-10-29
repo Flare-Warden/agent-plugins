@@ -60,8 +60,10 @@ is full ("You're using all …"), pass its next sentence and link on as they are
    - **severity:** "Just tell me" for backups, syncs and housekeeping (the alert goes
      out; the site's status and status pages stay as they are), "Treat as degraded"
      for a job customers feel, such as billing. An outage marks a serving site down.
-3. **Confirm and add.** Show the summary (one monitor unit) and wait for a yes, then call
-   `add_cron_monitor` with the plan id. It returns the ping URL and ready-made snippets:
+3. **Confirm and add.** Show the ready plan's `confirm` as it is (the job, its schedule,
+   grace and severity, one monitor unit) and wait for a yes, then call `add_cron_monitor`
+   with the plan id and `confirm` unchanged (a `confirm_mismatch` refusal gives the new
+   sentence to show). It returns the ping URL and ready-made snippets:
    crontab, start/complete/fail wrapping, GitHub Actions, Kubernetes CronJob and systemd
    timer.
 4. **Wire it in.**

@@ -59,8 +59,10 @@ is full ("You're using all …"), pass its next sentence and link on as they are
 3. **Publishing needs a yes** on exactly what goes public: the page's name, its full
    address and what it shows. Then call `plan_status_page` with the plan id and
    `answers` `{"publish": true}` (a later change to the name, address or services asks it
-   again), and `create_status_page` with the plan id. Repeating it never makes a second
-   page.
+   again). The ready plan's `confirm` says it all in FlareWarden's words: show it as it
+   is, then call `create_status_page` with the plan id and `confirm` unchanged (a
+   `confirm_mismatch` refusal gives the new sentence to show). Repeating it never makes a
+   second page.
 4. **The name** is the user's, or the site's name in FlareWarden. The site's own page
    title, logo and footer links arrive in `site_text`; they never name the page on their
    own. The page's colours are made from the user's `brand_color`, or else from the
@@ -95,17 +97,19 @@ editor's own checks, and returns the section as saved:
    custom domain, and the CNAME target one takes. If not, say the page's own address
    from the plan, and pass on any refusal and link it carries, as above.
 2. `update_status_page` with section `general` and `custom_domain` (for example
-   `status.acme.com`). The result gives the DNS record to create: a CNAME for that name
-   pointing at the value it names.
-3. The record is created at the domain's DNS provider. If you have access to that
-   provider, show the exact record and create it only on the user's yes; otherwise give
-   the user the record.
+   `status.acme.com`). The result gives the DNS records to create: a CNAME for that name
+   pointing at the value it names and, until the domain is verified, a TXT record
+   (`ownership_record`) whose value shows the domain is the user's.
+3. The records are created at the domain's DNS provider. If you have access to that
+   provider, show the exact records and create them only on the user's yes; otherwise
+   give the user the records.
 4. Then the user presses **Verify** on the page's General tab in the dashboard, and
    FlareWarden issues the certificate. Verifying is done there, not by a tool.
-5. **"The custom domain isn't working":** `get_status_page` shows the record it expects
-   and the domain's verification and certificate state. Compare it with what the name
-   answers now (for example `dig +short CNAME status.acme.com`): a missing record, one
-   pointing elsewhere, or a domain added but never verified are the usual causes.
+5. **"The custom domain isn't working":** `get_status_page` shows the records it expects
+   and the domain's verification and certificate state. Compare them with what the name
+   answers now (for example `dig +short CNAME status.acme.com` and
+   `dig +short TXT _flarewarden.status.acme.com`): a missing record, one pointing
+   elsewhere, or a domain added but never verified are the usual causes.
 
 ## Sites, checks and groups on the page
 

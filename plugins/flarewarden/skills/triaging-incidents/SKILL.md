@@ -132,16 +132,19 @@ page, and the tool and arguments that make it when this connection has that tool
      posted with it.
 2. Show the user the exact text and the recipients. Edit it with them. Keep it factual:
    what is affected, since when, what is being done; no guesses about cause.
-3. Publish only on an explicit yes to that text: `publish_incident_post` with the draft
-   id. Pass on any note in the draft about who will and won't be emailed. Repeating it
-   with the same draft id never posts twice.
+3. The draft's `confirm` is FlareWarden's sentence with the full title and message and
+   who is notified: show it as it is. Publish only on an explicit yes to it:
+   `publish_incident_post` with the draft id and `confirm` unchanged (a client that can
+   show a form also asks the user there). Pass on any note in the draft about who will
+   and won't be emailed. Repeating it with the same draft never posts twice.
 
 ## Planned work
 
 `draft_maintenance` with the site, title, start time (with its time zone), duration
 (1 to 720 minutes), any recurrence (daily, weekly, biweekly or monthly), and whether to
-notify subscribers: only when the user asks. Show the user the text, the time in their
-zone and who is notified; on a yes, `schedule_maintenance` with the draft id.
+notify subscribers: only when the user asks. Show the user the draft's `confirm` (the
+text, the time in their zone and who is notified); on a yes, `schedule_maintenance` with
+the draft id and `confirm` unchanged.
 `update_maintenance` changes one: `action` end finishes it early, start begins it now
 (it then runs to its scheduled end; the result says how to keep its planned length),
 edit moves, extends or renames it (only the fields given change), pause and resume a
