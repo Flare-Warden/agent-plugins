@@ -48,8 +48,9 @@ is full ("You're using all …"), pass its next sentence and link on as they are
 
 1. **The figures.** Call `get_report` with `scope` (`site`, `group` or `account`), the
    site or group, and `range`. Per site it returns uptime over the time FlareWarden
-   measured, downtime minutes, the number of incidents, the longest, the mean time to
-   recover, response time p50 and p95, and certificate and domain expiry dates.
+   measured, downtime minutes, degraded minutes, the number of incidents, the longest,
+   the mean time to recover, response time p50 and p95, and certificate and domain
+   expiry dates.
 2. **The incidents.** Call `list_incidents` with the same scope and range (or `from` and `to`) (`status`
    resolved, or all). For the incidents a reader will ask about (the longest, anything
    customers saw), call `get_incident` for its evidence: when it started and ended, how
@@ -57,10 +58,10 @@ is full ("You're using all …"), pass its next sentence and link on as they are
 3. **Planned work.** `list_incidents` with `kind` maintenance lists maintenance windows
    in the range; say which downtime was planned.
 4. **Write it:**
-   - **Headline:** uptime for the period, total downtime, number of incidents, and the
-     target if there is one, met or missed.
-   - **Per site:** a table with uptime, downtime minutes, incidents, longest incident,
-     mean time to recover, p50 and p95 response time.
+   - **Headline:** uptime for the period, total downtime, degraded time if any, number
+     of incidents, and the target if there is one, met or missed.
+   - **Per site:** a table with uptime, downtime minutes, degraded minutes, incidents,
+     longest incident, mean time to recover, p50 and p95 response time.
    - **Incidents in plain words:** date, how long, what happened according to the
      evidence, when it recovered. Quote probe errors as quoted text, not as your words.
    - **Coming up:** SSL certificates and domain registrations that expire soon.
@@ -72,10 +73,19 @@ is full ("You're using all …"), pass its next sentence and link on as they are
 - **Unknown is not up.** Uptime is measured over the time FlareWarden checked. A `null`
   uptime means nothing was measured: write "not measured", never 100%.
 - **Don't round up.** 99.95% is 99.95%, not 100%. Keep the decimals the result gives.
-- **Downtime and uptime measure different things.** Downtime is the time incidents were
-  open; uptime is the share of checks that passed. When `downtime_includes` names
-  declared or degraded incidents, a site can show downtime beside 100% uptime: say
-  which incidents the downtime counts, rather than calling the figures inconsistent.
+- **Degraded is not down.** `degraded_minutes` is the time an incident rated degraded
+  (a dependency, content check or cron job whose failure is rated degraded) was open
+  while the site was up. Report it as degraded time that affected the site, never as
+  downtime or an outage, and never subtract it from uptime. Each incident's `impact`
+  says `down`, `degraded` or `none`.
+- **Downtime is what uptime counts as down.** Each failed check stands for the time
+  until the next one, so a site whose incidents recovered within seconds can show more
+  downtime than its incidents lasted. The two figures agree; say how they are counted
+  rather than calling them inconsistent. Every minute figure is rounded to the nearest
+  minute, so an incident under 30 seconds reads as 0 minutes.
+- **Declared outages.** When `downtime_includes` names declared incidents, the downtime
+  counts outages the team declared, whatever the checks found: say so rather than
+  calling the figures inconsistent.
 - **Plan history.** A window is held to the history the plan keeps and to 90 days, and
   the result's notes say when it was narrowed. Put that in the report.
 - **Coverage.** A group or account report reads at most 25 sites; the notes say when it

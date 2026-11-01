@@ -139,7 +139,7 @@ For a hosting move, a migration or a client between contracts:
 
 - Name each group exactly after its client; `list_sites` with `group` then lists that
   client's sites, and `get_report` and `list_incidents` take the same group name.
-- `update_monitor` moves a site to another group or changes its interval.
+- `update_monitor` moves a site to another group or changes its interval or timeout.
 - Paused monitors still count toward the plan; removing one (in the dashboard) frees its
   unit. Say so when room is short.
 

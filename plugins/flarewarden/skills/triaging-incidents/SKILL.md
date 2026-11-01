@@ -114,6 +114,10 @@ page, and the tool and arguments that make it when this connection has that tool
 - Failures overturned from one region usually mean that region's requests are limited by
   the site's firewall, bot protection or CDN: `diagnose_site` shows what each region gets
   now, and the site can allow FlareWarden's probe addresses or user agent.
+- Overturned failures that mostly timed out on a site that often takes nearly its
+  timeout: the suggestion is `update_monitor` with a longer `timeout` (5, 10, 15 or 30
+  seconds). Say the slow page then passes, and that a site that stops answering is found
+  down that much later.
 - Don't promise settings the results don't show.
 
 ## Telling customers on the status page

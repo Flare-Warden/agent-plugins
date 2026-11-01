@@ -123,7 +123,8 @@ editor's own checks, and returns the section as saved:
    it into a group (`group`) or out to the top level (`group: ""`), or reorders it
    (`order`, 0 first within its group or the top level).
 4. **Remove:** `remove_status_page_component`.
-   - A site goes with the content, dependency and cron rows shown under it.
+   - A site goes with its own content, dependency and cron rows, wherever they are
+     placed (`site_component_id` names the site's row).
    - A group goes alone by default: its items move to the top level where it was.
      `group_contents: remove` takes everything in the group off the page too.
    - The sites and checks stay monitored; only the page changes.

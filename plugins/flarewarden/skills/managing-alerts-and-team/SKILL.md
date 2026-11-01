@@ -63,6 +63,8 @@ invitations, and the seats used and allowed.
 4. A monitor-only member already on the team is given more sites at once (no
    invitation, no email). `change_member_access` changes their sites one way or the
    other: add, view or edit, or remove one (the user types the site's name to confirm).
+   An account-level member (admin, editor or viewer) can't be made monitor-only: the
+   user removes them on the team page, then they are invited again with `sites`.
 4. Inviting the same address again replaces the pending invitation and emails it again:
    that is how to resend one.
 5. An admin can't invite another admin. Seat limits, an address that is already a
@@ -129,9 +131,14 @@ invitations together.
   sees the secret once. The secret never appears in the chat.
 - **Events:** `incident.started`, `incident.recovered`, `ssl.expiring`, `ssl.expired`,
   `ssl.changed`, `ssl.issued`, `dns.failed`, `dns.recovered`, `dns.changed`,
-  `monitor.created`, `monitor.deleted`, `monitor.paused`, `monitor.resumed`,
-  `maintenance.started`, `maintenance.completed`, `maintenance.cancelled`, `cron.failed`,
-  `cron.late`, `anomaly.detected`, `anomaly.resolved`.
+  `domain.expiring`, `domain.expired`, `monitor.created`, `monitor.deleted`,
+  `monitor.paused`, `monitor.resumed`, `maintenance.started`, `maintenance.completed`,
+  `maintenance.cancelled`, `cron.failed`, `cron.late`, `anomaly.detected`,
+  `anomaly.resolved`. The `monitor.*`, `maintenance.*` and `cron.*` events go to custom
+  webhooks only; a chat channel is sent the rest.
+- **Paused:** a webhook with `active` false says why in `paused_by` and `paused_reason`:
+  turned off by a member, or paused by the plan's webhook limit (upgrading turns it back
+  on). Failed deliveries never turn one off; they show in its `health`.
 - **Test:** `test_webhook` (its id or name) sends one test event now and returns whether
   it arrived and the HTTP status. In a chat channel others will see it, so ask first.
 - **Change:** `update_webhook` renames one, replaces its `events` or `sites`

@@ -144,8 +144,9 @@ and offer to watch each by its status page (`kind` and `status_page_url` in
 | Which services the site relies on | Those detected with high confidence in hosting, CDN, cloud, payments, sign-in, CMS and search |
 | Which automatic page checks | All that passed against the live page (error pages, domain theft, tampering, copyright, analytics tag) |
 | How often to check | The fastest interval the plan allows |
+| How long a check waits (never asked) | 10 seconds. For a page the user says is slow but up, answer `timeout` with 15 or 30 (5, 10, 15 or 30 offered): it then passes, and a site that stops answering is found down that much later |
 | Group | None, or the client's name for an agency |
-| Severity of a dependency | "Treat as an outage" for what serves the site (hosting, CDN, DNS, load balancer); "Treat as degraded" for features (payments, email, search, analytics) |
+| Severity of a dependency | "Treat as degraded" for every dependency, hosting, CDN and DNS included: the site's own uptime check decides Down. "Treat as an outage" only if the user asks |
 | Anomaly detection | Off for a new site: it learns for three days first, and the result suggests it later |
 
 Severity is asked as "How serious is it for your site if this fails?"; "Just tell me"
@@ -175,8 +176,8 @@ else is told to ask the owner. Repeat the plan's wording; never pick for the use
   address and what it shows, and answer the plan's `publish` decision only with the
   user's yes, before `create_status_page`. "You choose" never publishes. The
   running-status-pages skill covers editing it, custom domains and components.
-- **Changes:** `update_monitor` changes a site's interval or group (and a check's own
-  settings); `set_monitor_paused` pauses or resumes. For several sites at once (a group,
+- **Changes:** `update_monitor` changes a site's interval, timeout or group (and a
+  check's own settings); `set_monitor_paused` pauses or resumes. For several sites at once (a group,
   a list or every site), `plan_bulk_pause` lists which would change, then
   `apply_bulk_pause` after a yes. A site's pause holds its DNS watch alerts, but its cron
   jobs keep alerting until each is paused: say so first. Pausing frees no room; removing

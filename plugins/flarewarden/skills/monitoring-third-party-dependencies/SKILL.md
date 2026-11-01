@@ -75,11 +75,13 @@ takes it. A decision with no recommendation must be asked.
    hundreds of data centres, recommend its product components (CDN, DNS), not each
    location.
 4. **Severity per component** ("How serious is it for the site if this fails?"):
-   - **Treat as an outage** for what serves the site: hosting, CDN, DNS, load balancer,
-     compute in the site's region. The site shows Down; status pages show a partial
-     outage.
-   - **Treat as degraded** for features: payments, email, search, analytics. The site
-     shows Degraded; status pages show degraded performance.
+   - **Treat as degraded** is recommended for every new dependency, hosting, CDN and DNS
+     included. The site shows Degraded and its status pages mark it degraded; the time is
+     not downtime. The site's own uptime check decides Down: if the outage stops its pages
+     loading, that check fails and the site shows Down anyway.
+   - **Treat as an outage** is the user's choice: while it fails the site shows Down, the
+     status pages that show the site mark it a major outage, and the time counts as
+     downtime, even if the site's pages still load.
    - Both send alerts. The recommendation comes with its reason; repeat it.
 5. **How often** isn't asked: FlareWarden checks every 5 minutes (or the service's own
    minimum), since status pages update every few minutes and checking more often finds
