@@ -1,0 +1,33 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "paths": ["./plugins/flarewarden/skills"],
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Check if something is down",
+      "description": "No FlareWarden account needed: a third-party service or any website, checked from several regions.",
+      "skills": ["checking-service-status"]
+    },
+    {
+      "title": "Set up monitoring",
+      "description": "Plan, confirm and create monitoring for your sites, the services they rely on, cron jobs, DNS and certificates.",
+      "skills": [
+        "setting-up-website-monitoring",
+        "monitoring-third-party-dependencies",
+        "monitoring-cron-jobs",
+        "watching-dns-and-certificates",
+        "onboarding-client-portfolio"
+      ]
+    },
+    {
+      "title": "Run it day to day",
+      "description": "Triage incidents, write uptime reports, run status pages and manage the team and alerts.",
+      "skills": [
+        "triaging-incidents",
+        "writing-uptime-reports",
+        "running-status-pages",
+        "managing-alerts-and-team"
+      ]
+    }
+  ]
+}
